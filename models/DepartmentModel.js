@@ -21,9 +21,7 @@ class DepartmentModel extends BasePostgres {
         WHERE name ~ $1;`, [name])
     }
 
-    insert(name) {
-        const generator = UUID(0);
-        const id = generator.uuid();
+    insert(name, id=UUID(0).uuid()) {
         return this.query(`
             INSERT INTO ${this.departmentsTable}
             (id, name) VALUES ($1, $2)

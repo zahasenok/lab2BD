@@ -19,8 +19,11 @@ class ItemModel extends BasePostgres {
     }
 
     searchByAvailability(availability) {
-        return this.query(`SELECT * FROM ${this.itemsTable}
-        WHERE (SELECT id FROM order_links WHERE item_id=id) > 0 AND availability = $1;`, [availability])
+       /* return this.query(`SELECT DISTINCT i.id, i.name, i.price, i.availability
+        FROM ${this.itemsTable} as i, ${this.itemsOrdersLinks}  as o
+        WHERE i.id = o.item_id AND i.availability = $1;`, [availability]) */
+        return this.query(`SELECT * FROM items
+        WHERE id = (SELECT id FROM orders WHERE orders.id = items.id AND items.availability = $1;)`, [availability])
     }
     
     searchByName(name) {
@@ -33,9 +36,7 @@ class ItemModel extends BasePostgres {
         WHERE (price < $1 AND price > $2);`, [priceMax, priceMin])
     }
 
-    insert(price, availability, name) {
-        const generator = UUID(0);
-        const id = generator.uuid();
+    insert(price, availability, name, id=UUID(0).uuid()) {
         return this.query(`
             INSERT INTO ${this.itemsTable}
             (price, availability, name, id) VALUES

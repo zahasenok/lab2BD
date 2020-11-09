@@ -186,7 +186,7 @@ class ItemView {
         console.clear()
         const items = await this.itemController.getAll()
         rl.question(`All items : \n ${JSON.stringify(items)}`, () => {
-            this.itemMenu()
+            itemMenu()
         })
     }
 

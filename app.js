@@ -9,6 +9,11 @@ const rl = readline.createInterface({
     output: process.stdout,
 })
 
+const ItemModel = require("./models/ItemModel")
+const itemModel = new ItemModel()
+itemModel.searchByAvailability(true)
+
+
 
 const init = () => {
     console.clear()

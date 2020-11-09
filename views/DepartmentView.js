@@ -28,10 +28,10 @@ class DepartmentView {
                         this.departmentUpdate()
                         break
                     case "4":
-                        this.departmentsAll()
+                        this.departmentAll()
                         break
                     default:
-                        this.mainMenu();
+                        this.mainMenu()
                         break
                 }
             }
@@ -112,7 +112,7 @@ class DepartmentView {
         )
     }
 
-    async departmentsAll() {
+    async departmentAll() {
         console.clear()
         const departmentes = await this.departmentController.getAll()
         rl.question(`All departments : \n ${JSON.stringify(departmentes)}`, () => {

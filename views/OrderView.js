@@ -9,11 +9,11 @@ const rl = readline.createInterface({
 
 class OrderView {
     constructor(mainMenu) {
-        this.orderController = new OrderController()
+        this.orderController = new OrderController();
         this.mainMenu = mainMenu
     }
 
-    orderMenu(mainMenu){
+    orderMenu(){
         console.clear();
         rl.question('Order Menu\n\n1. Get All\n2. Add\n3. Delete\n4. Update\n5. Find by email\n Any other key to return \n',(type) => {
             switch (type) {
@@ -34,7 +34,7 @@ class OrderView {
                 break;
         
                 default:
-                mainMenu();
+                this.mainMenu();
                 break;
             }
         })
@@ -100,20 +100,47 @@ class OrderView {
         })
     }
 
-    insert() {  
-        rl.question('Enter the email : ', async (inputEmail) => {
-            if(!inputEmail) this.insert();
-            else{
-                const today = new Date();
-                const dd = String(today.getDate()).padStart(2, '0');
-                const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                const yyyy = today.getFullYear() + 1;
+    insert() {
+        rl.question("Enter the email : ", async (inputEmail) => {
+            if (!inputEmail) this.insert()
+            else {
+                const today = new Date()
+                const dd = String(today.getDate()).padStart(2, "0")
+                const mm = String(today.getMonth() + 1).padStart(2, "0") //January is 0!
+                const yyyy = today.getFullYear() + 1
 
-                const currentDate = mm + '-' + dd + '-' + yyyy;
-                const order = await this.orderController.insert(inputEmail, currentDate);
-                rl.question(`Inserted : ${JSON.stringify(order)}`, () => {
-                    this.orderMenu();
-                })
+                const currentDate = mm + "-" + dd + "-" + yyyy
+                const items = await this.itemController.getAll()
+                rl.question(
+                    `Enter the item id which you want to by : \n${JSON.stringify(
+                        items
+                    )}`,
+                    async (inputId) => {
+                        const isItem = items.find((value) => {
+                            if (value.id == Number(inputId)) return true
+                        })
+                        if (isItem) {
+                            if (isNaN(inputId)) this.insert()
+                            else {
+                                const order = await this.orderController.insert(
+                                    inputEmail,
+                                    currentDate,
+                                    parseInt(inputId)
+                                )
+                                rl.question(`
+                                    Inserted : ${JSON.stringify(order)}`,
+                                    () => {
+                                        this.orderMenu()
+                                    }
+                                )
+                            }
+                        } else {
+                            rl.question("No item found by id!", () =>
+                                this.itemMenu()
+                            )
+                        }
+                    }
+                )
             }
         })
     }

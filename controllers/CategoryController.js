@@ -1,73 +1,71 @@
-const CategoryModel = require("../models/CategoryModel")
+const CategoryModel = require('../models/CategoryModel');
+
 
 class CategoryController {
     constructor() {
-        this.categoryModel = new CategoryModel()
+        this.categoryModel = new CategoryModel();
     }
 
     async getAll() {
-        const categories = await this.categoryModel.getAll()
+        const categories = await this.categoryModel.getAll();
 
         if (!categories) {
-            return Error("There are no categories!")
+            return Error('There are no categories!');
         }
 
-        return categories
+        return categories;
     }
 
     async getById(id) {
-        const category = await this.categoryModel.getById(id)
+        const category = await this.categoryModel.getById(id);
 
         if (!category) {
-            return Error(`There is no category with id ${id}!`)
+            return Error(`There is no category with id ${id}!`);
         }
 
-        return category
+        return category;
     }
 
     async searchByName(name) {
-        const category = await this.categoryModel.searchByName(name)
+        const category = await this.categoryModel.searchByName(name);
 
         if (!category) {
-            return Error(`There are no categories with name ${name}!`)
+            return Error(`There are no categories with name ${name}!`);
         }
 
-        return category
+        return category;
     }
 
     async update(id, name) {
-        const category = await this.categoryModel.update(id, name)
+        const category = await this.categoryModel.update(id, name);
 
         if (!category) {
-            return Error(`There is no category with id ${id}!`)
+            return Error(`There is no category with id ${id}!`);
         }
 
-        return category
+        return category;
     }
 
-    async insert(price, availability, name) {
-        const category = await this.categoryModel.insert(
-            price,
-            availability,
-            name
-        )
+    async insert(name) {
+        const category = await this.categoryModel.insert(name);
 
         if (!category) {
-            return Error(`Can't insert category!`)
+            return Error(`Can't insert category!`);
         }
 
-        return category
+        return category;
     }
 
     async delete(id) {
-        const categories = await this.categoryModel.delete(id)
+        const categories = await this.categoryModel.delete(id);
 
         if (!categories) {
-            return Error("There are no !")
+            return Error('There are no !');
         }
 
-        return categories
+        return categories;
     }
 }
 
-module.exports = CategoryController
+
+module.exports = CategoryController;

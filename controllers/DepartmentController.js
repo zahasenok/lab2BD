@@ -36,8 +36,8 @@ class DepartmentController {
         return department;
     }
 
-    async update(id, price, availability, name) {
-        const department = await this.departmentModel.update(id, price, availability, name);
+    async update(id, name) {
+        const department = await this.departmentModel.update(id, name);
 
         if (!department) {
             return Error(`There is no department with id ${id}!`);
@@ -46,8 +46,8 @@ class DepartmentController {
         return department;
     }
 
-    async insert(price, availability, name) {
-        const department = await this.departmentModel.insert(price, availability, name);
+    async insert(name) {
+        const department = await this.departmentModel.insert(name);
 
         if (!department) {
             return Error(`Can't insert department!`);

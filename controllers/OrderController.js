@@ -46,8 +46,8 @@ class OrderController {
         return order;
     }
 
-    async update(id,email) {
-        const order = await this.orderModel.update(id,email);
+    async update(id, delivery_date, customer_email) {
+        const order = await this.orderModel.update(id, delivery_date, customer_email);
 
         if (!order) {
             return Error(`There is no order with id ${id}!`);
@@ -56,8 +56,8 @@ class OrderController {
         return order;
     }
 
-    async insert(email,date) {
-        const order = await this.orderModel.insert(email,date);
+    async insert(delivery_date, customer_email, item_id) {
+        const order = await this.orderModel.insert(delivery_date, customer_email, item_id);
 
         if (!order) {
             return Error(`Can't insert order!`);

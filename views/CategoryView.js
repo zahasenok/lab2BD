@@ -1,4 +1,5 @@
 const readline = require("readline")
+const { threadId } = require("worker_threads")
 const CategoryController = require("../controllers/CategoryController")
 
 const rl = readline.createInterface({
@@ -8,14 +9,14 @@ const rl = readline.createInterface({
 
 class CategoryView {
     constructor(mainMenu) {
-        this.categoryController = new CategoryController();
-        this.mainMenu = mainMenu;
+        this.categoryController = new CategoryController()
+        this.mainMenu = mainMenu
     }
 
-    categoryMenu() {
+    categoryMenu(mainMenu) {
         console.clear()
         rl.question(
-            "Categories Menu\n1. Add\n2. Delete\n3. Update\n4. Get\n5. Search by name \n",
+            "Categories Menu\n1. Add\n2. Delete\n3. Update\n4. Get\n",
             (answer) => {
                 switch (answer) {
                     case "1":
@@ -82,13 +83,13 @@ class CategoryView {
 
     async categoryUpdate() {
         console.clear()
-        const categoryes = await this.categoryController.getAll()
+        const categories = await this.categoryController.getAll()
         rl.question(
             `Choose the id of item that you want to update : \n${JSON.stringify(
-                categoryes
+                categories
             )}`,
             async (updateId) => {
-                const isCategory = categoryes.find((value) => {
+                const isCategory = categories.find((value) => {
                     if (value.id == Number(updateId)) return true
                 })
                 if (isCategory) {
@@ -109,7 +110,7 @@ class CategoryView {
                         }
                     })
                 } else {
-                    rl.question("No categoryes found by id!", () => {
+                    rl.question("No categories found by id!", () => {
                         this.categoryMenu()
                     })
                 }
@@ -120,7 +121,7 @@ class CategoryView {
     async categoriesAll() {
         console.clear()
         const categoryes = await this.categoryController.getAll()
-        rl.question(`All categoryes : \n ${JSON.stringify(categoryes)}`, () => {
+        rl.question(`All categories : \n ${JSON.stringify(categoryes)}`, () => {
             this.categoryMenu()
         })
     }

@@ -1,11 +1,20 @@
 const { Pool } = require('pg');
 
+const {
+    PG_USER='postgres',
+    PG_HOST='localhost',
+    PG_NAME='lab2',
+    PG_PORT=5432,
+    PG_PASSWORD='remsikman12',
+} = process.env;
+console.log(PG_USER)
+
 const poolOptions = {
-    user : 'postgres',
-    host : 'localhost',
-    password: 'remsikman12',
-    database : 'lab2',
-    port : 5432,
+    user : PG_USER,
+    host : PG_HOST || 'localhost',
+    password: PG_PASSWORD,
+    database : PG_NAME,
+    port : parseInt(PG_PORT) || 5432,
     max: 20,
 };
 const pool = new Pool(poolOptions);
